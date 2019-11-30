@@ -1,3 +1,3 @@
-const { quote } = require('./services/stockService')
+const { archiveStocks } = require('./services/stockService')
 
-quote('FB');
+archiveStocks();
