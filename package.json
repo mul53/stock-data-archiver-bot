@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "arweave": "^1.6.0",
+    "cron": "^1.7.2",
     "dotenv": "^8.2.0",
     "iexcloud_api_wrapper": "^1.1.5"
   },

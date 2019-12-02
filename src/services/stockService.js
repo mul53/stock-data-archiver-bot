@@ -9,6 +9,6 @@ exports.quote = async (sym) => {
         const quoteData = await iex.quote(sym);
         return quoteData;
     } catch (ex) {
-        console.error(`Exception: ${ex.response.data}`);
+        console.error(`⛔ Exception: ${ex.response.data}`);
     }
 }

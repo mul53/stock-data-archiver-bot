@@ -3,6 +3,7 @@ require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
 const Arweave = require('arweave/node');
+const CronJob = require('cron').CronJob;
 
 const { fetchNasdaqSymbols, quote } = require('./services/stockService')
 
@@ -11,7 +12,7 @@ const arweaveHost = process.env.ARWEAVE_HOST ? process.env.ARWEAVE_HOST : "arwea
 const arweaveProtocol = process.env.ARWEAVE_PROTOCOL ? process.env.ARWEAVE_PROTOCOL : "https";
 
 if (!process.env.WALLET_FILE) {
-    console.log("ERROR: Please specify a wallet file to load using argument " +
+    console.log("⛔ ERROR: Please specify a wallet file to load using argument " +
         "'--wallet-file <PATH>'.")
     process.exit();
 }
@@ -34,18 +35,20 @@ const dispatchTX = async tx => {
         const res = await arweave.transactions.post(tx);
     
         const output = `
-        Transaction ${tx.get("id")} dispatched to
+        🚀 Transaction ${tx.get("id")} dispatched to
         ${arweaveHost}:${arweavePort} with response: ${res.status}.`;
 
         console.log(output);
     } catch (ex) {
-        console.log('Exception :', ex);
+        console.log('⛔ Exception :', ex);
     }
 }
 
 const archiveStocks = async () => {
     try {
-        for (let sym of await fetchNasdaqSymbols()) {
+        console.log('Fetching quotes 📈...');
+        const symbols = await fetchNasdaqSymbols();
+        for (let sym of symbols) {
             const {
                 symbol,
                 companyName,
@@ -83,12 +86,17 @@ const archiveStocks = async () => {
             tx.addTag('Stream', 'Stock Quote');
 
             dispatchTX(tx);
-
-            break;
         }
+        console.log('Done fetching quotes 🚀🚀🚀...')
     } catch (ex) {
-        console.log('Exception: ', ex);
+        console.log('⛔ Exception: ', ex);
     }
 }
 
-archiveStocks();
+const run = async () => {
+    console.log('Started Stock Archiver Bot 🤖 ...');
+
+    new CronJob('0 0 18 * * 1-5', archiveStocks, null, true, 'America/New_York');
+}
+
+run();
