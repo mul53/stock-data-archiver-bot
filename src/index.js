@@ -34,10 +34,9 @@ const dispatchTX = async tx => {
         await arweave.transactions.sign(tx, wallet);
         const res = await arweave.transactions.post(tx);
     
-        const output = `
-        🚀 Transaction ${tx.get("id")} dispatched to
-        ${arweaveHost}:${arweavePort} with response: ${res.status}.`;
-
+        const output = 
+            `\n\n🚀 Transaction ${tx.get("id")} dispatched to \n` +
+            `${arweaveHost}:${arweavePort} with response: ${res.status}.`;
         console.log(output);
     } catch (ex) {
         console.log('⛔ Exception :', ex);
