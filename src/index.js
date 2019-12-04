@@ -52,31 +52,7 @@ const archiveStocks = async () => {
 
             if (!quoteData) continue;
 
-            const {
-                symbol,
-                companyName,
-                open,
-                close,
-                high,
-                previousClose,
-                marketCap,
-                week52High,
-                week52Low,
-                ytdChange
-            } = quoteData;
-
-            const data = JSON.stringify({
-                symbol,
-                companyName,
-                open,
-                close,
-                high,
-                previousClose,
-                marketCap,
-                week52High,
-                week52Low,
-                ytdChange
-            });
+            const data = JSON.stringify(quoteData);
 
             let now = new Date();
             let date = now.toISOString().split('T')[0];
