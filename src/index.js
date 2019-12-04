@@ -48,6 +48,10 @@ const archiveStocks = async () => {
         console.log('Fetching quotes 📈...');
         const symbols = await fetchNasdaqSymbols();
         for (let sym of symbols) {
+            const data = await quote(sym);
+
+            if (!data) continue;
+
             const {
                 symbol,
                 companyName,
@@ -59,7 +63,7 @@ const archiveStocks = async () => {
                 week52High,
                 week52Low,
                 ytdChange
-            } = await quote(sym);
+            } = data;
 
             const data = JSON.stringify({
                 symbol,
@@ -84,7 +88,7 @@ const archiveStocks = async () => {
             tx.addTag('Date', date);
             tx.addTag('Stream', 'Stock Quote');
 
-            dispatchTX(tx);
+            await dispatchTX(tx);
         }
         console.log('Done fetching quotes 🚀🚀🚀...')
     } catch (ex) {
