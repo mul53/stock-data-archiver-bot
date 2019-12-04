@@ -48,9 +48,9 @@ const archiveStocks = async () => {
         console.log('Fetching quotes 📈...');
         const symbols = await fetchNasdaqSymbols();
         for (let sym of symbols) {
-            const data = await quote(sym);
+            const quoteData = await quote(sym);
 
-            if (!data) continue;
+            if (!quoteData) continue;
 
             const {
                 symbol,
@@ -63,7 +63,7 @@ const archiveStocks = async () => {
                 week52High,
                 week52Low,
                 ytdChange
-            } = data;
+            } = quoteData;
 
             const data = JSON.stringify({
                 symbol,
