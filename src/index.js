@@ -60,7 +60,7 @@ const archiveStocks = async () => {
             let tx = await arweave.createTransaction({ data }, wallet);
 
             tx.addTag('Content-Type', 'application/json');
-            tx.addTag('Symbol', symbol);
+            tx.addTag('Symbol', quoteData.symbol);
             tx.addTag('Date', date);
             tx.addTag('Stream', 'Stock Quote');
 
