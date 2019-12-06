@@ -1,6 +1,6 @@
 # 🤖 Stock Archiver Bot
 
-The bot retrieves quote data for stocks on the New York Stock Exchange(NYSE) and NASDAQ every day at 6:00pm Eastern time and sends them to Arweave network.
+The bot retrieves **After Market** quote data for stocks on the New York Stock Exchange(NYSE) and NASDAQ every day at 6:00pm Eastern time and sends them to Arweave network.
 
 Data is archived at this address uWtbrU4VqrrY7CGG4bmM_vpwiyqnYZSQejp3YJIDI14
 
