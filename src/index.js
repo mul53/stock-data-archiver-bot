@@ -61,7 +61,13 @@ const archiveStocks = async () => {
 
             tx.addTag('Content-Type', 'application/json');
             tx.addTag('Symbol', quoteData.symbol);
-            tx.addTag('Date', date);
+
+            if (quoteData.latestTime) {
+                tx.addTag('Date', quoteData.latestTime);
+            } else {
+                tx.addTag('Date', date);
+            }
+
             tx.addTag('Stream', 'Stock Quote');
 
             await dispatchTX(tx);
