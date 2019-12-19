@@ -43,12 +43,34 @@ const dispatchTX = async tx => {
     }
 }
 
+const delay = (fn, ...args) => {
+    const MIN = 60000;
+
+    return new Promise((resolve, reject) => {
+        setTimeout(async () => {
+            try {
+                resolve(await fn(args[0]));
+            } catch (e) {
+                reject(e);
+            }
+        }, MIN);
+    });
+}
+
 const archiveStocks = async () => {
     try {
         console.log('Fetching quotes 📈...');
         const symbols = await fetchNasdaqSymbols();
-        for (let sym of symbols) {
-            const quoteData = await quote(sym);
+
+        for (let i=0, l=symbols.length; i<l; i++) {
+            let quoteData;
+            const sym = symbols[i];
+
+            if (i % 100 === 0) {
+                quoteData = await delay(quote, sym);
+            } else {
+                quoteData = await quote(sym);
+            }
 
             if (!quoteData) continue;
 
@@ -72,6 +94,7 @@ const archiveStocks = async () => {
 
             await dispatchTX(tx);
         }
+
         console.log('Done fetching quotes 🚀🚀🚀...')
     } catch (ex) {
         console.log('⛔ Exception: ', ex);
